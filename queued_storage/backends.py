@@ -11,11 +11,7 @@ from django.utils.http import urlquote
 
 from .conf import settings
 from .utils import import_attribute
-
-DJANGO_VERSION = django.get_version()
-
-if version.parse(DJANGO_VERSION) <= version.parse('1.7'):
-    from django.utils.deconstruct import deconstructible
+from django.utils.deconstruct import deconstructible
 
 
 class LazyBackend(SimpleLazyObject):
@@ -24,7 +20,7 @@ class LazyBackend(SimpleLazyObject):
         backend = import_attribute(import_path)
         super(LazyBackend, self).__init__(lambda: backend(**options))
 
-
+@deconstructible
 class QueuedStorage(object):
     """
     Base class for queued storages. You can use this to specify your own
@@ -386,10 +382,8 @@ class QueuedStorage(object):
     def generate_filename(self, filename):
         return self.get_storage(filename).generate_filename(filename)
 
-if version.parse(DJANGO_VERSION) <= version.parse('1.7'):
-    QueuedStorage = deconstructible(QueuedStorage)
 
-
+@deconstructible
 class QueuedFileSystemStorage(QueuedStorage):
     """
     A :class:`~queued_storage.backends.QueuedStorage` subclass which

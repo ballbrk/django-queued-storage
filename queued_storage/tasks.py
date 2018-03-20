@@ -128,8 +128,7 @@ class TransferAndDelete(Transfer):
     was successful.
     """
     def transfer(self, name, local, remote, **kwargs):
-        result = super(TransferAndDelete, self).transfer(name, local,
-                                                         remote, **kwargs)
+        result = super(TransferAndDelete, self).transfer(name, local,remote, **kwargs)
         if result:
             local.delete(name)
         return result
